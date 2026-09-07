@@ -2,16 +2,16 @@
 .hero-art{position:relative;isolation:isolate;overflow:hidden}
 .hero-art>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;filter:none;opacity:1}
 
-/* Replace the baked-in low-resolution letter completely. This sheet deliberately extends
-   past every photographed edge so the old blurry letter cannot show around it. */
-.hero-letter{box-sizing:border-box;position:absolute;z-index:4;left:18%;top:-4%;width:65%;height:108%;padding:clamp(3.2rem,5vw,5.2rem) clamp(2.2rem,4vw,4rem) clamp(2rem,3vw,3rem);background:linear-gradient(100deg,#f1e2c8 0%,#f7ead4 48%,#efddc0 100%);color:#241911;border:0;box-shadow:0 14px 34px rgba(24,15,9,.26),inset 0 0 42px rgba(137,100,62,.10);transform:none;font-family:var(--typewriter,"Courier New",monospace);font-size:clamp(.72rem,.82vw,.96rem);line-height:1.32;text-align:left;overflow:hidden}
-.hero-letter:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 18% 22%,rgba(143,101,57,.06),transparent 28%),radial-gradient(circle at 72% 70%,rgba(143,101,57,.045),transparent 26%),repeating-linear-gradient(0deg,rgba(70,45,24,.012) 0 1px,transparent 1px 4px)}
-.hero-letter:after{content:"FROM THE POND";position:absolute;right:clamp(1.35rem,2.8vw,2.8rem);top:clamp(1.4rem,2.5vw,2.5rem);width:clamp(64px,5.3vw,82px);height:clamp(64px,5.3vw,82px);display:grid;place-items:center;border:2px solid #a9231c;border-radius:50%;color:#a9231c;font-size:clamp(.48rem,.5vw,.58rem);font-weight:700;text-align:center;transform:rotate(12deg);opacity:.86}
+/* The live-text parchment replaces the blurry photographed letter, but keeps the same physical
+   footprint and angle so it reads as an object resting on the desk rather than a floating panel. */
+.hero-letter{box-sizing:border-box;position:absolute;z-index:4;left:22.5%;top:4.2%;width:52.5%;height:91.5%;padding:clamp(2.35rem,3.4vw,3.5rem) clamp(1.9rem,3vw,2.9rem) clamp(1.7rem,2.5vw,2.35rem);background:linear-gradient(103deg,#efe0c5 0%,#f7ead4 47%,#ecd8b8 100%);color:#241911;border:1px solid rgba(86,56,32,.18);box-shadow:18px 24px 34px rgba(18,11,6,.31),5px 8px 13px rgba(18,11,6,.22),inset 0 0 42px rgba(137,100,62,.09);clip-path:polygon(1.1% .8%,99.2% 0,98.6% 99%,.7% 100%);transform:perspective(900px) rotateZ(4.1deg) rotateX(1.15deg) skewY(-.25deg);transform-origin:center;font-family:var(--typewriter,"Courier New",monospace);font-size:clamp(.72rem,.81vw,.94rem);line-height:1.31;text-align:left;overflow:hidden}
+.hero-letter:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 18% 22%,rgba(143,101,57,.055),transparent 28%),radial-gradient(circle at 72% 70%,rgba(143,101,57,.045),transparent 26%),linear-gradient(180deg,rgba(255,255,255,.08),transparent 17%),repeating-linear-gradient(0deg,rgba(70,45,24,.012) 0 1px,transparent 1px 4px)}
+.hero-letter:after{content:"";position:absolute;right:clamp(1rem,1.8vw,1.75rem);top:clamp(.75rem,1.3vw,1.2rem);width:clamp(88px,6.2vw,112px);height:clamp(88px,6.2vw,112px);background:url("../images/pond-postmark.svg") center/contain no-repeat;transform:rotate(5deg);opacity:.88;pointer-events:none}
 .hero-letter>*{position:relative;z-index:1}
-.hero-letter .letter-kicker{display:block;padding-right:clamp(82px,8vw,118px);margin-bottom:.8rem;font-weight:700}
-.hero-letter p{margin:.52rem 0;max-width:39ch}
-.hero-letter .letter-signoff{margin-top:.82rem;font-family:"Segoe Print","Bradley Hand",cursive;font-size:1.02em;line-height:1.42}
-.hero-letter .letter-signoff strong{font-size:1.3em;font-weight:500}
+.hero-letter .letter-kicker{display:block;padding-right:clamp(94px,8vw,124px);margin-bottom:.72rem;font-weight:700}
+.hero-letter p{margin:.47rem 0;max-width:37ch}
+.hero-letter .letter-signoff{margin-top:.78rem;font-family:"Segoe Print","Bradley Hand",cursive;font-size:1.02em;line-height:1.38}
+.hero-letter .letter-signoff strong{font-size:1.28em;font-weight:500}
 
 .story-art{display:grid!important;place-items:center;overflow:hidden;padding:clamp(2rem,5vw,4.5rem);background:radial-gradient(circle at 42% 35%,rgba(83,57,34,.38),transparent 42%),linear-gradient(135deg,#1b120c,#2a1a10 58%,#17100b)}
 .story-art>img{display:none!important}
@@ -25,32 +25,34 @@
 .parcel-twine-horizontal{left:-5%;right:-5%;top:50%;height:8px;transform:rotate(1deg)}
 .parcel-twine-vertical{top:-5%;bottom:-5%;left:49%;width:8px;transform:rotate(-2deg)}
 
-@media(max-width:1100px) and (min-width:901px){
-  .hero-letter{left:15%;top:-4%;width:72%;height:108%;padding:2.8rem 2.3rem 2rem;font-size:.70rem;line-height:1.28}
-  .hero-letter:after{width:60px;height:60px;right:1.6rem;top:1.5rem}
-  .hero-letter .letter-kicker{padding-right:74px}
-  .hero-letter p{max-width:37ch;margin:.43rem 0}
+@media(max-width:1180px) and (min-width:901px){
+  .hero-letter{left:19%;top:4%;width:60%;height:91%;padding:2.25rem 2rem 1.75rem;font-size:.69rem;line-height:1.27;transform:perspective(850px) rotateZ(3.7deg) rotateX(1deg)}
+  .hero-letter:after{width:72px;height:72px;right:.85rem;top:.75rem}
+  .hero-letter .letter-kicker{padding-right:78px}
+  .hero-letter p{max-width:38ch;margin:.4rem 0}
 }
 
-/* On tablet/phone we do not render the photographed letter at all. The readable live-text
-   parchment is the hero visual, eliminating duplicate text and device-dependent blur. */
+/* Tablet/phone keep the desk scene visible. The live letter sits on top of the photographed
+   version and is large enough to remain readable instead of turning into a detached card. */
 @media(max-width:900px){
-  .hero-art{height:auto!important;min-height:0;display:flex;flex-direction:column;align-items:center;padding:1.25rem;background:radial-gradient(circle at 75% 22%,rgba(88,56,30,.34),transparent 28%),linear-gradient(135deg,#1b120c,#2b1c12 60%,#17100b)}
+  .hero-art{height:520px!important;min-height:0;display:block;padding:0;background:#17100b}
   .hero-art:before{display:none!important}
-  .hero-art>img{display:none!important}
-  .hero-letter{position:relative;left:auto;top:auto;width:min(94%,680px);height:auto;min-height:0;margin:0;padding:2rem 2rem 1.7rem;transform:rotate(-.25deg);font-size:.9rem;line-height:1.44;align-self:center;overflow:visible}
-  .hero-letter:after{width:64px;height:64px;right:1.2rem;top:1.15rem}
-  .hero-letter p{max-width:43ch}
+  .hero-art>img{display:block!important;position:absolute;height:100%;object-fit:cover;object-position:center center}
+  .hero-letter{position:absolute;left:14%;top:5%;width:72%;height:88%;margin:0;padding:2rem 1.8rem 1.6rem;clip-path:polygon(.8% .4%,99.4% 0,99% 99.2%,0 100%);transform:perspective(800px) rotateZ(3.1deg) rotateX(1deg);font-size:.82rem;line-height:1.38;overflow:hidden}
+  .hero-letter:after{width:66px;height:66px;right:.85rem;top:.75rem}
+  .hero-letter .letter-kicker{padding-right:72px}
+  .hero-letter p{max-width:42ch;margin:.43rem 0}
   .story-art{min-height:420px;padding:2.3rem}
   .story-parcel{width:min(78%,390px)}
 }
 
 @media(max-width:520px){
-  .hero-art{padding:.85rem}
-  .hero-letter{width:100%;padding:1.45rem 1.25rem 1.3rem;font-size:.82rem;line-height:1.4}
-  .hero-letter:after{width:52px;height:52px;right:.75rem;top:.7rem;font-size:.43rem}
-  .hero-letter .letter-kicker{padding-right:58px}
-  .hero-letter p{margin:.48rem 0;max-width:100%}
+  .hero-art{height:470px!important}
+  .hero-art>img{object-position:56% center}
+  .hero-letter{left:8%;top:5%;width:84%;height:89%;padding:1.55rem 1.2rem 1.25rem;font-size:.74rem;line-height:1.34;transform:perspective(720px) rotateZ(2.7deg) rotateX(.8deg)}
+  .hero-letter:after{width:52px;height:52px;right:.55rem;top:.55rem}
+  .hero-letter .letter-kicker{padding-right:58px;margin-bottom:.55rem}
+  .hero-letter p{margin:.36rem 0;max-width:100%}
   .story-art{min-height:350px;padding:1.5rem}
   .story-parcel{width:min(88%,320px)}
   .story-parcel img{width:72px!important;height:72px!important}
