@@ -5,17 +5,6 @@
     const nav = document.querySelector('.main-nav');
     const header = document.querySelector('.site-header');
     const toast = document.querySelector('#preview-toast');
-    const heroImage = document.querySelector('.hero-art img');
-
-    const fallbackHero = () => {
-      if (!heroImage || heroImage.dataset.fallbackApplied === 'true') return;
-      heroImage.dataset.fallbackApplied = 'true';
-      heroImage.src = 'assets/images/hero.svg';
-      console.warn('Primary hero artwork failed to load; restored bundled fallback artwork.');
-    };
-
-    heroImage?.addEventListener('error', fallbackHero, { once: true });
-    if (heroImage?.complete && heroImage.naturalWidth === 0) fallbackHero();
 
     const closeMenu = (restoreFocus = false) => {
       menu?.setAttribute('aria-expanded', 'false');
@@ -41,6 +30,15 @@
       if (menu?.getAttribute('aria-expanded') === 'true' && header && !header.contains(event.target)) {
         closeMenu(false);
       }
+    });
+
+    document.querySelector('.hero-art img')?.addEventListener('error', (event) => {
+      const image = event.currentTarget;
+      if (!(image instanceof HTMLImageElement)) return;
+      if (image.dataset.fallbackApplied === 'true') return;
+      image.dataset.fallbackApplied = 'true';
+      image.src = 'assets/images/hero.svg';
+      console.warn('Hero artwork failed to load; fallback artwork applied.');
     });
 
     const showPreview = () => {
