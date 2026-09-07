@@ -1,0 +1,37 @@
+/* Cache-busted hero override for GitHub Pages review. */
+.hero-art{position:relative!important;isolation:isolate;overflow:hidden!important}
+.hero-art>img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center center!important;display:block!important;filter:none!important;opacity:1!important}
+
+/* Make the live letter read as a sheet resting on the photographed desk. */
+.hero-letter{box-sizing:border-box!important;position:absolute!important;z-index:6!important;left:22.5%!important;top:4.2%!important;width:52.5%!important;height:91.5%!important;padding:clamp(2.35rem,3.4vw,3.5rem) clamp(1.9rem,3vw,2.9rem) clamp(1.7rem,2.5vw,2.35rem)!important;background:linear-gradient(103deg,#efe0c5 0%,#f7ead4 47%,#ecd8b8 100%)!important;color:#241911!important;border:1px solid rgba(86,56,32,.18)!important;box-shadow:20px 28px 38px rgba(18,11,6,.34),7px 10px 15px rgba(18,11,6,.24),inset 0 0 42px rgba(137,100,62,.09)!important;clip-path:polygon(1.1% .8%,99.2% 0,98.6% 99%,.7% 100%)!important;transform:perspective(900px) rotateZ(4.8deg) rotateX(1.4deg) skewY(-.3deg)!important;transform-origin:center!important;font-family:var(--typewriter,"Courier New",monospace)!important;font-size:clamp(.72rem,.81vw,.94rem)!important;line-height:1.31!important;text-align:left!important;overflow:hidden!important}
+.hero-letter:before{content:""!important;position:absolute!important;inset:0!important;pointer-events:none!important;background:radial-gradient(circle at 18% 22%,rgba(143,101,57,.055),transparent 28%),radial-gradient(circle at 72% 70%,rgba(143,101,57,.045),transparent 26%),linear-gradient(180deg,rgba(255,255,255,.08),transparent 17%),repeating-linear-gradient(0deg,rgba(70,45,24,.012) 0 1px,transparent 1px 4px)!important}
+.hero-letter:after{content:""!important;position:absolute!important;right:clamp(1rem,1.8vw,1.75rem)!important;top:clamp(.75rem,1.3vw,1.2rem)!important;width:clamp(92px,6.5vw,118px)!important;height:clamp(92px,6.5vw,118px)!important;background:url("../images/pond-postmark.svg?v=2") center/contain no-repeat!important;border:0!important;border-radius:0!important;padding:0!important;color:transparent!important;transform:rotate(4deg)!important;opacity:.9!important;pointer-events:none!important}
+.hero-letter>*{position:relative!important;z-index:1!important}
+.hero-letter .letter-kicker{display:block!important;padding-right:clamp(98px,8vw,128px)!important;margin-bottom:.72rem!important;font-weight:700!important}
+.hero-letter p{margin:.47rem 0!important;max-width:37ch!important}
+
+@media(max-width:1180px) and (min-width:901px){
+  .hero-letter{left:19%!important;top:4%!important;width:60%!important;height:91%!important;padding:2.25rem 2rem 1.75rem!important;font-size:.69rem!important;line-height:1.27!important;transform:perspective(850px) rotateZ(4.2deg) rotateX(1.2deg)!important}
+  .hero-letter:after{width:76px!important;height:76px!important;right:.85rem!important;top:.75rem!important}
+  .hero-letter .letter-kicker{padding-right:82px!important}
+  .hero-letter p{max-width:38ch!important;margin:.4rem 0!important}
+}
+
+@media(max-width:900px){
+  .hero-art{height:520px!important;min-height:0!important;display:block!important;padding:0!important;background:#17100b!important}
+  .hero-art:before{display:none!important}
+  .hero-art>img{display:block!important;position:absolute!important;height:100%!important;object-fit:cover!important;object-position:center center!important}
+  .hero-letter{position:absolute!important;left:14%!important;top:5%!important;width:72%!important;height:88%!important;margin:0!important;padding:2rem 1.8rem 1.6rem!important;clip-path:polygon(.8% .4%,99.4% 0,99% 99.2%,0 100%)!important;transform:perspective(800px) rotateZ(3.4deg) rotateX(1deg)!important;font-size:.82rem!important;line-height:1.38!important;overflow:hidden!important}
+  .hero-letter:after{width:68px!important;height:68px!important;right:.85rem!important;top:.75rem!important}
+  .hero-letter .letter-kicker{padding-right:74px!important}
+  .hero-letter p{max-width:42ch!important;margin:.43rem 0!important}
+}
+
+@media(max-width:520px){
+  .hero-art{height:470px!important}
+  .hero-art>img{object-position:56% center!important}
+  .hero-letter{left:8%!important;top:5%!important;width:84%!important;height:89%!important;padding:1.55rem 1.2rem 1.25rem!important;font-size:.74rem!important;line-height:1.34!important;transform:perspective(720px) rotateZ(2.9deg) rotateX(.8deg)!important}
+  .hero-letter:after{width:54px!important;height:54px!important;right:.55rem!important;top:.55rem!important}
+  .hero-letter .letter-kicker{padding-right:60px!important;margin-bottom:.55rem!important}
+  .hero-letter p{margin:.36rem 0!important;max-width:100%!important}
+}
