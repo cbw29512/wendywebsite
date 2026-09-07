@@ -1,0 +1,40 @@
+/* Hero v4 — one photographed paper only, with crisp live text blended into that paper. */
+.hero-art{position:relative!important;overflow:hidden!important;background:#17100b!important}
+.hero-art>img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:58% center!important;display:block!important;filter:contrast(1.05) saturate(1.03)!important;opacity:1!important}
+
+/* Keep the real photographed paper visible. This is only an interior text restoration layer —
+   no second paper edge, no border, no floating card, no drop shadow. */
+.hero-letter{box-sizing:border-box!important;position:absolute!important;z-index:6!important;left:24.8%!important;top:9.2%!important;width:47.8%!important;height:72%!important;padding:1.25rem 1.35rem 1rem!important;background:rgba(246,234,211,.90)!important;color:#241911!important;border:0!important;box-shadow:0 0 18px 14px rgba(246,234,211,.76)!important;clip-path:none!important;transform:rotate(4.55deg)!important;transform-origin:center!important;font-family:var(--typewriter,"Courier New",monospace)!important;font-size:clamp(.68rem,.76vw,.9rem)!important;line-height:1.29!important;text-align:left!important;overflow:visible!important;backdrop-filter:blur(1px)!important;-webkit-backdrop-filter:blur(1px)!important}
+.hero-letter:before{content:""!important;position:absolute!important;inset:-8px!important;z-index:-1!important;pointer-events:none!important;background:radial-gradient(ellipse at center,rgba(246,234,211,.96) 0%,rgba(246,234,211,.92) 68%,rgba(246,234,211,0) 100%)!important}
+.hero-letter:after{content:""!important;position:absolute!important;right:.15rem!important;top:-.1rem!important;width:clamp(82px,6.1vw,108px)!important;height:clamp(82px,6.1vw,108px)!important;background:url("../images/pond-postmark.svg?v=4") center/contain no-repeat!important;border:0!important;padding:0!important;transform:rotate(2deg)!important;opacity:.9!important;pointer-events:none!important}
+.hero-letter>*{position:relative!important;z-index:1!important}
+.hero-letter .letter-kicker{display:block!important;padding-right:clamp(92px,7.2vw,118px)!important;margin-bottom:.62rem!important;font-weight:700!important}
+.hero-letter p{margin:.39rem 0!important;max-width:36ch!important}
+.hero-letter .letter-signoff{margin-top:.65rem!important;font-family:"Segoe Print","Bradley Hand",cursive!important;font-size:1em!important;line-height:1.3!important}
+.hero-letter .letter-signoff strong{font-size:1.24em!important;font-weight:500!important}
+
+@media(max-width:1180px) and (min-width:901px){
+  .hero-art>img{object-position:60% center!important}
+  .hero-letter{left:22%!important;top:8.5%!important;width:53%!important;height:74%!important;padding:1.05rem 1.15rem .9rem!important;font-size:.65rem!important;line-height:1.27!important;transform:rotate(4.2deg)!important}
+  .hero-letter:after{width:70px!important;height:70px!important;right:.05rem!important;top:-.05rem!important}
+  .hero-letter .letter-kicker{padding-right:76px!important}
+}
+
+@media(max-width:900px){
+  .hero-art{height:500px!important;min-height:0!important}
+  .hero-art>img{object-position:61% center!important}
+  .hero-letter{left:20%!important;top:9%!important;width:58%!important;height:72%!important;padding:1.1rem 1rem .9rem!important;font-size:.72rem!important;line-height:1.32!important;transform:rotate(3.8deg)!important}
+  .hero-letter:after{width:62px!important;height:62px!important;right:.05rem!important;top:0!important}
+  .hero-letter .letter-kicker{padding-right:66px!important;margin-bottom:.48rem!important}
+  .hero-letter p{margin:.33rem 0!important;max-width:38ch!important}
+}
+
+@media(max-width:520px){
+  .hero-art{height:445px!important}
+  .hero-art>img{object-position:62% center!important}
+  .hero-letter{left:15%!important;top:8.5%!important;width:67%!important;height:74%!important;padding:.9rem .8rem .72rem!important;font-size:.64rem!important;line-height:1.29!important;transform:rotate(3.45deg)!important}
+  .hero-letter:after{width:48px!important;height:48px!important;right:-.05rem!important;top:-.05rem!important}
+  .hero-letter .letter-kicker{padding-right:52px!important;margin-bottom:.4rem!important}
+  .hero-letter p{margin:.28rem 0!important;max-width:100%!important}
+  .hero-letter .letter-signoff{margin-top:.45rem!important}
+}
