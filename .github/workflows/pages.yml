@@ -1,0 +1,81 @@
+name: Publish GitHub Pages Review
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build review site
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='_site' \
+            ./ _site/
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          root = Path('_site')
+          prefix = '/wendywebsite'
+
+          for path in root.rglob('*'):
+              if not path.is_file() or path.suffix.lower() not in {'.html', '.css', '.js'}:
+                  continue
+
+              text = path.read_text(encoding='utf-8')
+
+              # The repository currently contains SVG review artwork.
+              text = text.replace('.webp', '.svg')
+
+              # GitHub project Pages sites live below /wendywebsite/.
+              if path.suffix.lower() == '.html':
+                  text = text.replace('href="/', f'href="{prefix}/')
+                  text = text.replace("href='/", f"href='{prefix}/")
+                  text = text.replace('src="/', f'src="{prefix}/')
+                  text = text.replace("src='/", f"src='{prefix}/")
+
+              path.write_text(text, encoding='utf-8')
+
+          (root / '.nojekyll').touch()
+          PY
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
