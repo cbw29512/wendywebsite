@@ -2,9 +2,9 @@
 .hero-art{position:relative;isolation:isolate;overflow:hidden}
 .hero-art>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;filter:none;opacity:1}
 
-/* Replace the baked-in low-resolution letter completely. This sheet is intentionally larger
-   than the photographed letter beneath it so no duplicate/blurred copy can peek around the edges. */
-.hero-letter{box-sizing:border-box;position:absolute;z-index:4;left:20.5%;top:-1.5%;width:61%;height:103%;padding:clamp(3.2rem,5vw,5.2rem) clamp(2.2rem,4vw,4rem) clamp(2rem,3vw,3rem);background:linear-gradient(100deg,#f1e2c8 0%,#f7ead4 48%,#efddc0 100%);color:#241911;border:0;box-shadow:0 14px 34px rgba(24,15,9,.26),inset 0 0 42px rgba(137,100,62,.10);clip-path:polygon(1.4% .8%,99% 0,98.6% 99%,0 100%);transform:rotate(.55deg);transform-origin:center;font-family:var(--typewriter,"Courier New",monospace);font-size:clamp(.72rem,.82vw,.96rem);line-height:1.32;text-align:left;overflow:hidden}
+/* Replace the baked-in low-resolution letter completely. This sheet deliberately extends
+   past every photographed edge so the old blurry letter cannot show around it. */
+.hero-letter{box-sizing:border-box;position:absolute;z-index:4;left:18%;top:-4%;width:65%;height:108%;padding:clamp(3.2rem,5vw,5.2rem) clamp(2.2rem,4vw,4rem) clamp(2rem,3vw,3rem);background:linear-gradient(100deg,#f1e2c8 0%,#f7ead4 48%,#efddc0 100%);color:#241911;border:0;box-shadow:0 14px 34px rgba(24,15,9,.26),inset 0 0 42px rgba(137,100,62,.10);transform:none;font-family:var(--typewriter,"Courier New",monospace);font-size:clamp(.72rem,.82vw,.96rem);line-height:1.32;text-align:left;overflow:hidden}
 .hero-letter:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 18% 22%,rgba(143,101,57,.06),transparent 28%),radial-gradient(circle at 72% 70%,rgba(143,101,57,.045),transparent 26%),repeating-linear-gradient(0deg,rgba(70,45,24,.012) 0 1px,transparent 1px 4px)}
 .hero-letter:after{content:"FROM THE POND";position:absolute;right:clamp(1.35rem,2.8vw,2.8rem);top:clamp(1.4rem,2.5vw,2.5rem);width:clamp(64px,5.3vw,82px);height:clamp(64px,5.3vw,82px);display:grid;place-items:center;border:2px solid #a9231c;border-radius:50%;color:#a9231c;font-size:clamp(.48rem,.5vw,.58rem);font-weight:700;text-align:center;transform:rotate(12deg);opacity:.86}
 .hero-letter>*{position:relative;z-index:1}
@@ -26,19 +26,19 @@
 .parcel-twine-vertical{top:-5%;bottom:-5%;left:49%;width:8px;transform:rotate(-2deg)}
 
 @media(max-width:1100px) and (min-width:901px){
-  .hero-letter{left:17.5%;top:-1%;width:67%;height:102%;padding:2.8rem 2.3rem 2rem;font-size:.70rem;line-height:1.28}
+  .hero-letter{left:15%;top:-4%;width:72%;height:108%;padding:2.8rem 2.3rem 2rem;font-size:.70rem;line-height:1.28}
   .hero-letter:after{width:60px;height:60px;right:1.6rem;top:1.5rem}
   .hero-letter .letter-kicker{padding-right:74px}
   .hero-letter p{max-width:37ch;margin:.43rem 0}
 }
 
-/* On tablet/phone we do not show the photographed letter at all. The readable live-text
-   parchment becomes the hero visual, eliminating duplicate text and device-dependent blur. */
+/* On tablet/phone we do not render the photographed letter at all. The readable live-text
+   parchment is the hero visual, eliminating duplicate text and device-dependent blur. */
 @media(max-width:900px){
   .hero-art{height:auto!important;min-height:0;display:flex;flex-direction:column;align-items:center;padding:1.25rem;background:radial-gradient(circle at 75% 22%,rgba(88,56,30,.34),transparent 28%),linear-gradient(135deg,#1b120c,#2b1c12 60%,#17100b)}
   .hero-art:before{display:none!important}
   .hero-art>img{display:none!important}
-  .hero-letter{position:relative;left:auto;top:auto;width:min(94%,680px);height:auto;min-height:0;margin:0;padding:2rem 2rem 1.7rem;clip-path:polygon(.8% .4%,99.4% 0,99% 99.2%,0 100%);transform:rotate(-.25deg);font-size:.9rem;line-height:1.44;align-self:center;overflow:visible}
+  .hero-letter{position:relative;left:auto;top:auto;width:min(94%,680px);height:auto;min-height:0;margin:0;padding:2rem 2rem 1.7rem;transform:rotate(-.25deg);font-size:.9rem;line-height:1.44;align-self:center;overflow:visible}
   .hero-letter:after{width:64px;height:64px;right:1.2rem;top:1.15rem}
   .hero-letter p{max-width:43ch}
   .story-art{min-height:420px;padding:2.3rem}
