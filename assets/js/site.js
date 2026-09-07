@@ -38,8 +38,8 @@
       if (!(image instanceof HTMLImageElement)) return;
       if (image.dataset.fallbackApplied === 'true') return;
       image.dataset.fallbackApplied = 'true';
-      image.src = 'assets/images/hero.svg';
-      console.warn('Hero artwork failed to load; fallback artwork applied.');
+      image.src = 'assets/images/hero-wendy-v5.svg';
+      console.warn('Primary hero artwork failed to load; Wendy desk-scene fallback applied.');
     });
 
     const showPreview = () => {
