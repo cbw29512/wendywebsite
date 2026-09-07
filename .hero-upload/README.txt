@@ -1,0 +1,1 @@
+Temporary build inputs for reconstructing the verified Wandered & Found hero WebP. These files are removed after the binary asset is committed.
