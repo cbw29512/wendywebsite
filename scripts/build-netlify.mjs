@@ -5,6 +5,7 @@ import process from 'node:process';
 const root = process.cwd();
 const out = path.join(root, '_site');
 const excluded = new Set(['.git', '.github', '_site', 'scripts', 'PROJECT_SPEC.md', 'README.md', 'netlify.toml', '.nojekyll']);
+const neverIndex = new Set(['admin/index.html', '404.html']);
 
 async function copySite() {
   await rm(out, { recursive: true, force: true });
@@ -26,8 +27,12 @@ async function walk(dir) {
   return found;
 }
 
+function relativeWebPath(file) {
+  return path.relative(out, file).replaceAll(path.sep, '/');
+}
+
 function canonicalFor(file) {
-  const rel = path.relative(out, file).replaceAll(path.sep, '/');
+  const rel = relativeWebPath(file);
   if (rel === 'index.html') return 'https://wanderedandfound.org/';
   if (rel.endsWith('/index.html')) return `https://wanderedandfound.org/${rel.slice(0, -10)}`;
   return `https://wanderedandfound.org/${rel}`;
@@ -36,24 +41,28 @@ function canonicalFor(file) {
 async function prepareProductionHtml() {
   for (const file of (await walk(out)).filter((item) => item.endsWith('.html'))) {
     let html = await readFile(file, 'utf8');
-    html = html.replace(
-      '<meta name="robots" content="noindex,nofollow">',
-      '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">'
-    );
+    const rel = relativeWebPath(file);
 
-    const canonical = canonicalFor(file);
-    if (!html.includes('rel="canonical"')) {
-      html = html.replace('</head>', `  <link rel="canonical" href="${canonical}">\n</head>`);
+    if (!neverIndex.has(rel)) {
+      html = html.replace(
+        '<meta name="robots" content="noindex,nofollow">',
+        '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">'
+      );
+      const canonical = canonicalFor(file);
+      if (!html.includes('rel="canonical"')) {
+        html = html.replace('</head>', `  <link rel="canonical" href="${canonical}">\n</head>`);
+      }
+      if (!html.includes('property="og:url"')) {
+        html = html.replace('</head>', `  <meta property="og:url" content="${canonical}">\n</head>`);
+      }
     }
-    if (!html.includes('property="og:url"')) {
-      html = html.replace('</head>', `  <meta property="og:url" content="${canonical}">\n</head>`);
-    }
+
     await writeFile(file, html, 'utf8');
   }
 }
 
 async function writeProductionRobots() {
-  const robots = 'User-agent: *\nAllow: /\nSitemap: https://wanderedandfound.org/sitemap.xml\n';
+  const robots = 'User-agent: *\nAllow: /\nDisallow: /admin/\nSitemap: https://wanderedandfound.org/sitemap.xml\n';
   await writeFile(path.join(out, 'robots.txt'), robots, 'utf8');
 }
 
@@ -61,7 +70,7 @@ try {
   await copySite();
   await prepareProductionHtml();
   await writeProductionRobots();
-  console.log('Production site built in _site with indexing enabled for wanderedandfound.org.');
+  console.log('Production site built in _site with indexing enabled for public wanderedandfound.org pages.');
 } catch (error) {
   console.error('Netlify production build failed.', error);
   process.exitCode = 1;
