@@ -1,0 +1,150 @@
+name: Quality Gate
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build production output
+        run: node scripts/build-netlify.mjs
+
+      - name: Static path and indexing checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlparse
+
+          root = Path('_site').resolve()
+          failures = []
+
+          class Parser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.refs = []
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  for key in ('href', 'src'):
+                      if key in attrs:
+                          self.refs.append(attrs[key])
+
+          for html_file in root.rglob('*.html'):
+              parser = Parser()
+              text = html_file.read_text(encoding='utf-8')
+              parser.feed(text)
+              rel = html_file.relative_to(root).as_posix()
+
+              if rel not in {'admin/index.html', '404.html'} and 'noindex' in text.lower():
+                  failures.append(f'{rel}: public production page still contains noindex')
+
+              for ref in parser.refs:
+                  parsed = urlparse(ref)
+                  if parsed.scheme or parsed.netloc or ref.startswith(('mailto:', 'tel:', '#')):
+                      continue
+                  target = ref.split('#', 1)[0].split('?', 1)[0]
+                  if not target:
+                      continue
+                  candidate = (html_file.parent / target).resolve()
+                  try:
+                      candidate.relative_to(root)
+                  except ValueError:
+                      failures.append(f'{rel}: path escapes site root: {ref}')
+                      continue
+                  if candidate.is_dir():
+                      candidate = candidate / 'index.html'
+                  elif candidate.suffix == '' and not candidate.exists():
+                      candidate = candidate / 'index.html'
+                  if not candidate.exists():
+                      failures.append(f'{rel}: missing local target {ref}')
+
+          robots = (root / 'robots.txt').read_text(encoding='utf-8')
+          if 'Allow: /' not in robots or 'Sitemap: https://wanderedandfound.org/sitemap.xml' not in robots:
+              failures.append('robots.txt is not production-ready')
+
+          if failures:
+              print('\n'.join(failures))
+              raise SystemExit(1)
+          print('Static path and production indexing checks passed.')
+          PY
+
+      - name: Serve production output
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --directory _site >/tmp/wandered-site.log 2>&1 &
+          echo $! >/tmp/wandered-site.pid
+          for i in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/wandered-site.log
+          exit 1
+
+      - name: Lighthouse mobile
+        run: >-
+          npx --yes lighthouse@12.6.0 http://127.0.0.1:4173/
+          --quiet
+          --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage"
+          --only-categories=performance,accessibility,best-practices,seo
+          --output=json
+          --output-path=lighthouse-mobile.json
+
+      - name: Lighthouse desktop
+        run: >-
+          npx --yes lighthouse@12.6.0 http://127.0.0.1:4173/
+          --quiet
+          --preset=desktop
+          --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage"
+          --only-categories=performance,accessibility,best-practices,seo
+          --output=json
+          --output-path=lighthouse-desktop.json
+
+      - name: Enforce category scores
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const files = ['lighthouse-mobile.json', 'lighthouse-desktop.json'];
+          const categories = ['performance', 'accessibility', 'best-practices', 'seo'];
+          let failed = false;
+          for (const file of files) {
+            const report = JSON.parse(fs.readFileSync(file, 'utf8'));
+            const label = file.includes('mobile') ? 'mobile' : 'desktop';
+            for (const category of categories) {
+              const score = Math.round(report.categories[category].score * 100);
+              console.log(`${label} ${category}: ${score}`);
+              if (score < 100) failed = true;
+            }
+          }
+          if (failed) {
+            console.error('Quality gate requires 100 in all four Lighthouse categories on both profiles.');
+            process.exit(1);
+          }
+          NODE
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: |
+            lighthouse-mobile.json
+            lighthouse-desktop.json
+          if-no-files-found: ignore
