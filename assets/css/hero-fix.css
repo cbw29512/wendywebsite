@@ -1,0 +1,23 @@
+/* Hero and product-visual corrections. Kept isolated from the base design so Wendy can maintain it easily. */
+.hero-art{position:relative;isolation:isolate}
+.hero-art>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;filter:none;opacity:1}
+.hero-letter{position:absolute;z-index:4;left:29%;top:6%;width:min(48%,520px);padding:clamp(1rem,1.55vw,1.55rem) clamp(1rem,1.8vw,1.7rem);background:rgba(242,228,202,.97);color:#241911;border:1px solid rgba(78,52,31,.22);box-shadow:0 12px 30px rgba(24,15,9,.24),inset 0 0 40px rgba(137,100,62,.08);transform:rotate(1deg);font-family:var(--typewriter,"Courier New",monospace);font-size:clamp(.72rem,.82vw,.95rem);line-height:1.35;text-align:left}
+.hero-letter:after{content:"FROM THE POND";position:absolute;right:1.05rem;top:.9rem;width:72px;height:72px;display:grid;place-items:center;border:2px solid #a9231c;border-radius:50%;color:#a9231c;font-size:.54rem;font-weight:700;text-align:center;transform:rotate(12deg);opacity:.82}
+.hero-letter .letter-kicker{display:block;padding-right:88px;margin-bottom:.8rem;font-weight:700}
+.hero-letter p{margin:.55rem 0;max-width:34ch}
+.hero-letter .letter-signoff{margin-top:.85rem;font-family:"Segoe Print","Bradley Hand",cursive;font-size:1.02em;line-height:1.45}
+.hero-letter .letter-signoff strong{font-size:1.28em;font-weight:500}
+.story-art{display:grid!important;place-items:center;overflow:hidden;padding:clamp(2rem,5vw,4.5rem);background:radial-gradient(circle at 42% 35%,rgba(83,57,34,.38),transparent 42%),linear-gradient(135deg,#1b120c,#2a1a10 58%,#17100b)}
+.story-art>img{display:none!important}
+.story-parcel{position:relative;width:min(84%,440px);aspect-ratio:.92;background:linear-gradient(145deg,#b98f5f,#a77949 52%,#8e653d);border:1px solid #73502f;box-shadow:0 22px 42px rgba(0,0,0,.42),inset 0 0 55px rgba(65,39,19,.22);transform:rotate(-4deg);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#3b291c;text-align:center;font-family:var(--typewriter,"Courier New",monospace);overflow:hidden}
+.story-parcel:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 2px,rgba(67,42,22,.02) 2px 4px);pointer-events:none}
+.story-parcel img{position:absolute!important;right:9%;top:8%;width:92px!important;height:92px!important;object-fit:contain!important;mix-blend-mode:multiply;filter:none!important;opacity:.92!important;z-index:3}
+.story-parcel p,.story-parcel small{position:relative;z-index:4;margin:0;background:rgba(231,199,154,.45);padding:.28rem .5rem}
+.story-parcel p{font-weight:700;letter-spacing:.06em;font-size:clamp(.88rem,1.4vw,1.15rem)}
+.story-parcel small{margin-top:.45rem;letter-spacing:.12em;font-weight:700}
+.parcel-twine{position:absolute;z-index:2;background:linear-gradient(#755436,#b08b5e,#6d4b2f);box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.parcel-twine-horizontal{left:-5%;right:-5%;top:50%;height:8px;transform:rotate(1deg)}
+.parcel-twine-vertical{top:-5%;bottom:-5%;left:49%;width:8px;transform:rotate(-2deg)}
+@media(max-width:1100px) and (min-width:901px){.hero-letter{left:24%;width:56%;font-size:.73rem}.hero-letter:after{width:62px;height:62px}.hero-letter .letter-kicker{padding-right:74px}}
+@media(max-width:900px){.hero-art{height:auto!important;min-height:0;display:flex;flex-direction:column;background:#17100b}.hero-art>img{position:relative;height:360px;object-fit:cover;object-position:center center}.hero-letter{position:relative;left:auto;top:auto;width:auto;max-width:680px;margin:-34px 18px 26px;padding:1.35rem 1.4rem;transform:rotate(-.35deg);font-size:.9rem;line-height:1.45;align-self:center}.hero-letter:after{width:64px;height:64px}.hero-letter p{max-width:42ch}.story-art{min-height:420px;padding:2.3rem}.story-parcel{width:min(78%,390px)}}
+@media(max-width:520px){.hero-art>img{height:270px}.hero-letter{margin:-22px 12px 20px;padding:1.15rem;font-size:.82rem}.hero-letter:after{width:54px;height:54px;right:.7rem;top:.7rem;font-size:.45rem}.hero-letter .letter-kicker{padding-right:62px}.story-art{min-height:350px;padding:1.5rem}.story-parcel{width:min(88%,320px)}.story-parcel img{width:72px!important;height:72px!important}}
