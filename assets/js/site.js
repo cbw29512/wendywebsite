@@ -32,7 +32,8 @@
       }
     });
 
-    document.querySelector('.hero-art img')?.addEventListener('error', (event) => {
+    const heroImage = document.querySelector('.hero-art img');
+    heroImage?.addEventListener('error', (event) => {
       const image = event.currentTarget;
       if (!(image instanceof HTMLImageElement)) return;
       if (image.dataset.fallbackApplied === 'true') return;
