@@ -1,0 +1,16 @@
+/* Final hero composition: keep Wendy's desk scene, remove all duplicate paper overlays. */
+.hero-art{position:relative!important;overflow:hidden!important;background:#17100b!important;isolation:isolate!important}
+.hero-art::before{content:""!important;position:absolute!important;inset:0!important;z-index:2!important;pointer-events:none!important;background:linear-gradient(90deg,rgba(23,16,11,.9) 0%,rgba(23,16,11,.5) 5%,rgba(23,16,11,0) 16%)!important}
+.hero-art>img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center center!important;filter:none!important;opacity:1!important;transform:none!important}
+.hero-letter{display:none!important}
+
+@media(max-width:900px){
+  .hero-art{height:390px!important;min-height:0!important}
+  .hero-art::before{background:linear-gradient(180deg,rgba(23,16,11,.75) 0%,rgba(23,16,11,.28) 7%,rgba(23,16,11,0) 18%)!important}
+  .hero-art>img{object-position:center center!important}
+}
+
+@media(max-width:520px){
+  .hero-art{height:330px!important}
+  .hero-art>img{object-position:52% center!important}
+}
