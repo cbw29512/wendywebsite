@@ -35,12 +35,41 @@ Before taking real orders, Wendy still needs final business inputs and the produ
 
 No raw card data should ever be stored by this application.
 
-## Deploy to Wendy's Netlify account
+## No-GitHub handoff — easiest path for Wendy now
+
+Wendy does **not** need a GitHub account just to review or receive the site.
+
+The quality workflow creates two handoff ZIP files:
+
+- `wandered-found-preview.zip` — the built, safe, noindex review site ready for manual Netlify deployment
+- `wandered-found-source.zip` — the editable source code Chris should keep and give Wendy for ownership/backups
+
+### Chris's handoff steps
+
+1. Open the latest successful **Quality Gate** run in GitHub Actions.
+2. Download the **wendy-handoff** artifact.
+3. Unzip that artifact once. It contains the two ZIP files above.
+4. Put both ZIP files in OneDrive, Dropbox, Google Drive, on a USB drive, or another file-sharing method Wendy can access.
+5. Send Wendy the share link or hand her the USB drive. Email is not required.
+
+### Wendy's visual-review deployment without GitHub
+
+1. Sign in to Wendy's Netlify account.
+2. Unzip `wandered-found-preview.zip` to a folder on her computer.
+3. Use Netlify's manual deploy / drag-and-drop flow and upload that folder.
+4. Netlify will give Wendy a temporary review URL.
+5. This preview remains intentionally non-indexed by search engines.
+
+The manual preview is enough for Wendy to inspect the site and request design changes. For long-term production updates, keeping the source in version control is still recommended; Wendy can create a GitHub account later, but she does not need one for this handoff.
+
+## GitHub-connected Netlify deployment — optional later
+
+If Wendy later wants automatic deploys from source control:
 
 1. Sign in to Wendy's Netlify account.
 2. Choose **Add new project** / **Import an existing project**.
-3. Connect GitHub and grant Netlify access to this repository.
-4. Select `cbw29512/wendywebsite` (or the new repository location if ownership has already been transferred to Wendy).
+3. Connect GitHub and grant Netlify access to the production repository.
+4. Select the Wandered & Found repository.
 5. Netlify should read `netlify.toml` automatically.
 6. Confirm the detected settings:
    - Build command: `node scripts/build-netlify.mjs`
@@ -89,20 +118,19 @@ The intended production domain is:
 
 Domain registration/DNS ownership should ultimately live under Wendy's control. Netlify hosting and DNS can be configured under Wendy's account independently of Chris's Netlify account.
 
-## GitHub handoff
+## Recommended long-term ownership model
 
-Recommended final ownership model:
+- Wendy owns the production source code and backups.
+- Wendy's Netlify account owns the production deploy.
+- If GitHub is adopted later, Wendy owns or has administrator access to the production repository.
+- `main` remains the production source branch.
+- Automated quality checks remain enabled for production changes.
 
-- Wendy owns or has administrator access to the production GitHub repository.
-- Wendy's Netlify account is connected directly to that repository.
-- `main` is the production source branch.
-- GitHub Actions remains enabled so every push to `main` runs the quality gate.
-
-Do not copy Netlify credentials, Stripe secrets, webhook secrets, database credentials, or other secrets into the repository.
+Do not copy Netlify credentials, Stripe secrets, webhook secrets, database credentials, or other secrets into the repository or the handoff ZIPs.
 
 ## Verification before handoff
 
-Before giving Wendy the final repository access, confirm:
+Before giving Wendy the final package, confirm:
 
 - latest `main` Quality Gate is green
 - homepage hero matches Wendy's approved art
