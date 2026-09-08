@@ -36,6 +36,34 @@ jobs:
           fi
           echo 'Safe handoff preview indexing checks passed.'
 
+      - name: Package Wendy handoff files
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f wandered-found-preview.zip wandered-found-source.zip
+          (
+            cd _site
+            zip -qr ../wandered-found-preview.zip .
+          )
+          zip -qr wandered-found-source.zip . \
+            -x '.git/*' \
+               '_site/*' \
+               'wandered-found-preview.zip' \
+               'wandered-found-source.zip'
+          test -s wandered-found-preview.zip
+          test -s wandered-found-source.zip
+          echo 'Wendy handoff ZIP files created.'
+
+      - name: Upload Wendy handoff package
+        uses: actions/upload-artifact@v4
+        with:
+          name: wendy-handoff
+          path: |
+            wandered-found-preview.zip
+            wandered-found-source.zip
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Build production output
         env:
           PUBLIC_INDEXING: enabled
