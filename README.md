@@ -2,9 +2,16 @@
 
 This repository is the source of truth for Wendy's Wandered & Found website. It is intentionally a dependency-free static site for visual review and prelaunch deployment.
 
-The repository is prepared to be deployed from **Wendy's own Netlify account**. It does not require Chris's Netlify account or an existing Netlify site ID.
+The project is prepared to be deployed from **Wendy's own Netlify account**. It does not require Chris's Netlify account or an existing Netlify site ID.
 
-For the owner-transfer and Netlify setup sequence, see **`WENDY_HANDOFF.md`**.
+Wendy does **not** need a GitHub account for the initial handoff. Every successful `main` Quality Gate creates a **wendy-handoff** artifact containing:
+
+- `wandered-found-preview.zip` — built, safe, noindex site for manual Netlify review
+- `wandered-found-source.zip` — editable source code for ownership and backup
+
+Chris can download those ZIPs and pass them to Wendy through OneDrive, Dropbox, Google Drive, USB, or another file-sharing method.
+
+For the complete handoff and Netlify sequence, see **`WENDY_HANDOFF.md`**.
 
 ## Preview behavior
 
@@ -16,7 +23,9 @@ For the owner-transfer and Netlify setup sequence, see **`WENDY_HANDOFF.md`**.
 
 ## Netlify handoff
 
-Connect this GitHub repository to Wendy's Netlify account. `netlify.toml` defines the build command, `_site` publish directory, Node 22 runtime, and baseline security headers.
+For Wendy's first visual review, unzip `wandered-found-preview.zip` and use Netlify's manual deploy / drag-and-drop flow.
+
+If Wendy later adopts GitHub, `netlify.toml` defines the build command, `_site` publish directory, Node 22 runtime, and baseline security headers for connected automatic deploys.
 
 The first deployment requires no environment variables and remains non-indexed. When the production domain is ready for public launch, follow `WENDY_HANDOFF.md` to enable public indexing deliberately.
 
