@@ -22,7 +22,24 @@ jobs:
         with:
           node-version: 22
 
+      - name: Build safe handoff preview
+        run: node scripts/build-netlify.mjs
+
+      - name: Verify preview indexing is disabled
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'Disallow: /' _site/robots.txt
+          if ! grep -qi 'noindex,nofollow' _site/index.html; then
+            echo 'Preview homepage must remain noindex,nofollow.'
+            exit 1
+          fi
+          echo 'Safe handoff preview indexing checks passed.'
+
       - name: Build production output
+        env:
+          PUBLIC_INDEXING: enabled
+          PUBLIC_SITE_URL: https://wanderedandfound.org
         run: node scripts/build-netlify.mjs
 
       - name: Static path and indexing checks
