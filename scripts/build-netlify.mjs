@@ -4,8 +4,11 @@ import process from 'node:process';
 
 const root = process.cwd();
 const out = path.join(root, '_site');
-const excluded = new Set(['.git', '.github', '_site', 'scripts', 'PROJECT_SPEC.md', 'README.md', 'netlify.toml', '.nojekyll']);
+const excluded = new Set(['.git', '.github', '_site', 'scripts', 'PROJECT_SPEC.md', 'README.md', 'WENDY_HANDOFF.md', 'netlify.toml', '.nojekyll']);
 const neverIndex = new Set(['admin/index.html', '404.html']);
+
+const publicIndexingEnabled = process.env.PUBLIC_INDEXING === 'enabled';
+const publicSiteUrl = (process.env.PUBLIC_SITE_URL || 'https://wanderedandfound.org').replace(/\/+$/, '');
 
 async function copySite() {
   await rm(out, { recursive: true, force: true });
@@ -33,17 +36,29 @@ function relativeWebPath(file) {
 
 function canonicalFor(file) {
   const rel = relativeWebPath(file);
-  if (rel === 'index.html') return 'https://wanderedandfound.org/';
-  if (rel.endsWith('/index.html')) return `https://wanderedandfound.org/${rel.slice(0, -10)}`;
-  return `https://wanderedandfound.org/${rel}`;
+  if (rel === 'index.html') return `${publicSiteUrl}/`;
+  if (rel.endsWith('/index.html')) return `${publicSiteUrl}/${rel.slice(0, -10)}`;
+  return `${publicSiteUrl}/${rel}`;
 }
 
-async function prepareProductionHtml() {
+function ensurePreviewNoIndex(html) {
+  if (html.includes('<meta name="robots"')) {
+    return html.replace(
+      /<meta name="robots" content="[^"]*">/,
+      '<meta name="robots" content="noindex,nofollow">'
+    );
+  }
+  return html.replace('</head>', '  <meta name="robots" content="noindex,nofollow">\n</head>');
+}
+
+async function prepareHtml() {
   for (const file of (await walk(out)).filter((item) => item.endsWith('.html'))) {
     let html = await readFile(file, 'utf8');
     const rel = relativeWebPath(file);
 
-    if (!neverIndex.has(rel)) {
+    if (neverIndex.has(rel) || !publicIndexingEnabled) {
+      html = ensurePreviewNoIndex(html);
+    } else {
       html = html.replace(
         '<meta name="robots" content="noindex,nofollow">',
         '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">'
@@ -61,17 +76,23 @@ async function prepareProductionHtml() {
   }
 }
 
-async function writeProductionRobots() {
-  const robots = 'User-agent: *\nAllow: /\nDisallow: /admin/\nSitemap: https://wanderedandfound.org/sitemap.xml\n';
+async function writeRobots() {
+  const robots = publicIndexingEnabled
+    ? `User-agent: *\nAllow: /\nDisallow: /admin/\nSitemap: ${publicSiteUrl}/sitemap.xml\n`
+    : 'User-agent: *\nDisallow: /\n';
   await writeFile(path.join(out, 'robots.txt'), robots, 'utf8');
 }
 
 try {
   await copySite();
-  await prepareProductionHtml();
-  await writeProductionRobots();
-  console.log('Production site built in _site with indexing enabled for public wanderedandfound.org pages.');
+  await prepareHtml();
+  await writeRobots();
+  console.log(
+    publicIndexingEnabled
+      ? `Production site built in _site with public indexing enabled for ${publicSiteUrl}.`
+      : 'Handoff/preview site built in _site with public indexing disabled.'
+  );
 } catch (error) {
-  console.error('Netlify production build failed.', error);
+  console.error('Netlify site build failed.', error);
   process.exitCode = 1;
 }
