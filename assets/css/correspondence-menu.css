@@ -1,0 +1,167 @@
+.correspondence-menu {
+  position: relative;
+  overflow: hidden;
+  padding: 1.7rem 1.8rem 1.5rem;
+  border: 8px solid transparent;
+  background:
+    linear-gradient(#f2e4cd, #ead7b9) padding-box,
+    repeating-linear-gradient(
+      135deg,
+      #9f241d 0 14px,
+      #efe1c9 14px 27px,
+      #52606a 27px 41px,
+      #efe1c9 41px 54px
+    ) border-box;
+  box-shadow: 0 18px 45px rgba(10, 6, 3, .28);
+  transform: rotate(.25deg);
+}
+
+.correspondence-menu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .12;
+  background-image: radial-gradient(#725b43 .6px, transparent .6px);
+  background-size: 5px 5px;
+}
+
+.correspondence-menu > * {
+  position: relative;
+  z-index: 1;
+}
+
+.mail-marks {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 58px;
+}
+
+.mail-marks img {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  opacity: .28;
+  mix-blend-mode: multiply;
+  transform: rotate(-8deg);
+}
+
+.mail-marks span {
+  border: 1px dashed rgba(98, 72, 48, .35);
+  padding: .45rem .6rem;
+  color: #856f5b;
+  font-size: .62rem;
+  line-height: 1.35;
+  letter-spacing: .12em;
+  text-align: left;
+  text-transform: uppercase;
+  transform: rotate(1deg);
+}
+
+.correspondence-cta {
+  width: min(100%, 620px) !important;
+  min-height: 52px;
+  margin: -.9rem auto 0;
+  gap: .8rem;
+  font-size: .92rem;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.07), 0 7px 16px rgba(77,11,7,.25);
+}
+
+.correspondence-cta span {
+  font-size: 1.15rem;
+  transition: transform .18s ease;
+}
+
+.correspondence-cta:hover span,
+.correspondence-cta:focus-visible span {
+  transform: translateX(4px);
+}
+
+.menu-note {
+  margin: .85rem 0 1.1rem;
+  text-align: center;
+  color: #5c4838;
+  font-size: .85rem;
+}
+
+.mini-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .65rem;
+}
+
+.mini-option {
+  min-width: 0;
+  min-height: 158px;
+  padding: .8rem .55rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .42rem;
+  background: rgba(255, 248, 234, .58);
+  border: 1px dashed #b9a384;
+  box-shadow: 0 5px 12px rgba(70, 43, 22, .08);
+  text-align: center;
+}
+
+.mini-option svg {
+  width: 38px;
+  height: 38px;
+  fill: none;
+  stroke: #6b4b36;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mini-option svg .accent {
+  stroke: #aa241c;
+}
+
+.mini-option strong {
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, serif;
+  font-size: .84rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.mini-option small {
+  display: block;
+  margin-top: .12rem;
+  color: #5d4d40;
+  font-family: Georgia, serif;
+  font-size: .7rem;
+  line-height: 1.35;
+}
+
+.correspondence-signoff {
+  margin: .8rem .2rem 0 auto;
+  color: #6a5140;
+  font-family: "Segoe Print", "Bradley Hand", cursive;
+  font-size: .74rem;
+  font-style: italic;
+  text-align: right;
+}
+
+@media (max-width: 1100px) {
+  .mini-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mini-option { min-height: 145px; }
+}
+
+@media (max-width: 520px) {
+  .correspondence-menu { padding: 1.25rem 1rem 1.1rem; border-width: 6px; }
+  .mail-marks img { width: 58px; height: 58px; }
+  .mail-marks span { font-size: .54rem; }
+  .correspondence-cta { margin-top: -.35rem; font-size: .8rem; }
+  .mini-options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+  .mini-option { min-height: 138px; padding: .7rem .4rem; }
+  .mini-option strong { font-size: .75rem; }
+  .mini-option small { font-size: .65rem; }
+}
